@@ -1,0 +1,44 @@
+{
+  "name": "message-webpack-plugin",
+  "version": "0.0.1",
+  "description": "一个处理消息的webpack插件",
+  "main": "lib/index.js",
+  "module": "src/index.ts",
+  "typings": "types/index.d.ts",
+  "type": "module",
+  "author": "ccode",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "src/",
+    "lib/",
+    "types/"
+  ],
+  "keywords": [
+    "message-webpack-plugin",
+    "message-webpack"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imccode/message-webpack-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/imccode/message-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/imccode",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^12.12.5",
+    "@types/webpack": "latest",
+    "prettier": "1.19.1",
+    "ts-node": "latest",
+    "ts-node-dev": "latest",
+    "typescript": "latest",
+    "webpack": "latest"
+  }
+}
