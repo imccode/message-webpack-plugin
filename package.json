@@ -1,16 +1,16 @@
 {
   "name": "message-webpack-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "一个处理消息的webpack插件",
   "main": "lib/index.js",
-  "module": "src/index.ts",
   "typings": "types/index.d.ts",
-  "type": "module",
-  "author": "ccode",
+  "author": {
+    "name": "ccode",
+    "url": "https://github.com/imccode"
+  },
   "files": [
     "LICENSE",
     "README.md",
-    "src/",
     "lib/",
     "types/"
   ],
@@ -29,16 +29,35 @@
   "bugs": {
     "url": "https://github.com/imccode/message-webpack-plugin/issues"
   },
-  "homepage": "https://github.com/imccode",
-  "scripts": {},
-  "dependencies": {},
+  "homepage": "https://github.com/imccode/message-webpack-plugin",
+  "scripts": {
+    "tsc": "rm -rf types && tsc",
+    "publish-npm": "rm -rf types && tsc && yarn publish --registry https://registry.npmjs.org",
+    "publish-npm:next": "rm -rf types && tsc && yarn publish --registry https://registry.npmjs.org --tag next "
+  },
+  "dependencies": {
+    "chalk": "^3.0.0"
+  },
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
     "@types/node": "^12.12.5",
-    "@types/webpack": "latest",
+    "@types/webpack": "^4.41.4",
     "prettier": "1.19.1",
-    "ts-node": "latest",
-    "ts-node-dev": "latest",
+    "serve-webpack-plugin": "next",
     "typescript": "latest",
-    "webpack": "latest"
+    "webpack": "^4.41.4"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "semi": false,
+    "singleQuote": true,
+    "jsxSingleQuote": false,
+    "trailingComma": "none",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "arrowParens": "avoid",
+    "insertPragma": false,
+    "tabWidth": 2,
+    "useTabs": false
   }
 }
