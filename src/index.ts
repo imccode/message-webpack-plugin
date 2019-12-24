@@ -25,7 +25,7 @@ class MessageWebpackPlugin {
       all: false
     }
     compiler.options.performance = false
-    compiler.options.bail = true
+    compiler.options.bail = false
     if (this.options.progress) compiler.options.plugins.push(progress(compiler))
   }
 

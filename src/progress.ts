@@ -37,7 +37,9 @@ export default (compiler: Compiler) => {
         formatModuleName = path.relative(compiler.context, formatModuleName)
       }
 
-      spinner.text = `${chalk.green.bold(progress)} ${chalk.green('模块构建')} ${moduleProgress.split(' ')[0]} -> ${chalk.gray(formatModuleName)}`
+      spinner.text = `${chalk.green.bold(progress)} ${chalk.green('模块构建')} ${
+        moduleProgress.split(' ')[0]
+      } ${chalk.gray(`-> ${formatModuleName}`)}`
       return
     }
 

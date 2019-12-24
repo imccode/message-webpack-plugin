@@ -1,6 +1,5 @@
 import { isIPv4 } from 'net'
 import { networkInterfaces } from 'os'
-import { Entry, EntryFunc } from 'webpack'
 
 /**
  * 获取本机ip数组
