@@ -2,7 +2,9 @@ import { Compiler } from 'webpack'
 import { MessageWebpackPluginOptions } from './types'
 import formatWebpackMessages from './format'
 import mergeOptions from './mergeOptions'
+import progress from './progress'
 import hook from './hook'
+import ora = require('ora')
 
 /**
  * 消息webpack插件
@@ -23,6 +25,8 @@ class MessageWebpackPlugin {
       all: false
     }
     compiler.options.performance = false
+    compiler.options.bail = true
+    if (this.options.progress) compiler.options.plugins.push(progress(compiler))
   }
 
   /**

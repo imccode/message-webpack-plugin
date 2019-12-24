@@ -4,6 +4,8 @@
 export interface MessageWebpackPluginOptions {
     /** devServe服务消息端口 */
     servePort?: number;
+    /** 是否需要构建进度消息 */
+    progress?: boolean;
     /**
      * 编译完成回调
      */

@@ -2,11 +2,13 @@ import chalk from 'chalk'
 import { Compiler } from 'webpack'
 import formatWebpackMessages from './format'
 import { MessageWebpackPluginOptions } from './types'
+import { localIps } from './utils'
 
 const pluginName = 'MessageWebpackPlugin'
 
 export default (options: MessageWebpackPluginOptions = {}, compiler: Compiler) => {
   const { invalid, done } = compiler.hooks
+  const { onSuccess, onError, onWarning, servePort } = options
 
   const isTTY = process.stdout.isTTY
   const clearConsole = () =>
@@ -18,11 +20,21 @@ export default (options: MessageWebpackPluginOptions = {}, compiler: Compiler) =
   })
 
   done.tap(pluginName, stats => {
-    if (isTTY && compiler.options.mode === 'development') clearConsole()
+    const isDev = compiler.options.mode === 'development'
+    if (isTTY && isDev) clearConsole()
 
     if (!stats.hasErrors() && !stats.hasWarnings()) {
       console.log(`\n✅ ${chalk.green('编译成功!')}`)
-      this.options.onSuccess && this.options.onSuccess()
+      if (isDev) {
+        console.log('\n在浏览器打开以下地址浏览.\n')
+        console.log(`  本地地址：${chalk.underline(`http://localhost:${servePort}`)}`)
+        localIps()
+          .map(ip => `  网络地址: ${chalk.underline(`http://${ip}:${servePort}`)}`)
+          .forEach(msg => {
+            console.log(msg)
+          })
+      }
+      onSuccess && onSuccess()
       return
     }
 
@@ -36,8 +48,8 @@ export default (options: MessageWebpackPluginOptions = {}, compiler: Compiler) =
 
     if (message.errors.length > 0) {
       console.log(`\n⭕️ ${chalk.red('编译失败！')}\n`)
-      if (this.options.onError) {
-        this.options.onError(stats.compilation.errors)
+      if (onError) {
+        onError(stats.compilation.errors)
       } else {
         console.log(message.errors.join('\n\n'))
       }
@@ -46,8 +58,8 @@ export default (options: MessageWebpackPluginOptions = {}, compiler: Compiler) =
 
     if (message.warnings.length > 0) {
       console.log(`\n❔ ${chalk.yellow('编译警告！')}\n`)
-      if (this.options.onWarning) {
-        this.options.onWarning(stats.compilation.warnings)
+      if (onWarning) {
+        onWarning(stats.compilation.warnings)
       } else {
         console.log(message.warnings.join('\n\n'))
       }
