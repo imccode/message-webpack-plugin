@@ -2,6 +2,8 @@
 
 :kissing_heart:一个处理消息的webpack插件。
 
+特性：友好的错误、警告消息，显示构建进度。
+
 :point_right:
 [![github](https://img.shields.io/github/release-date/imccode/message-webpack-plugin.svg)](https://github.com/imccode/message-webpack-plugin/releases)
 [![npm-version](https://img.shields.io/npm/v/message-webpack-plugin.svg)](https://www.npmjs.com/package/message-webpack-plugin)
@@ -50,8 +52,8 @@ module.exports = {
 
 具体配置项的数据类型见[types.ts](./src/types.ts)
 
-- **servePort** devServe服务消息端口，用于开发环境输出默认访问地址提示。默认: `33333`
-- **progress** 是否需要构建进度消息。 默认: `true`
-- **onSuccess** 编译完成回调。
-- **onError** 编译失败回调。
-- **onWarning** 编译警告回调。
+- `servePort` devServe服务消息端口，用于开发环境输出默认访问地址提示。默认: `33333`
+- `progress` 是否需要构建进度消息。 默认: `true`
+- `onSuccess` 编译完成回调。
+- `onError` 编译失败回调。
+- `onWarning` 编译警告回调。
