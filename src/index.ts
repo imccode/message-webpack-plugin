@@ -4,7 +4,6 @@ import formatWebpackMessages from './format'
 import mergeOptions from './mergeOptions'
 import progress from './progress'
 import hook from './hook'
-import ora = require('ora')
 
 /**
  * 消息webpack插件

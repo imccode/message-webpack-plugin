@@ -19,3 +19,39 @@ npm install message-webpack-plugin -D
 
 pnpm install message-webpack-plugin -D
 ```
+
+## 使用方式
+
+```javascript
+const MessageWebpackPlugin = require('message-webpack-plugin')
+
+module.exports = {
+  plugins: [new MessageWebpackPlugin()]
+}
+```
+
+```javascript
+const MessageWebpackPlugin = require('message-webpack-plugin')
+
+module.exports = {
+  plugins: [
+    new MessageWebpackPlugin({
+      servePort: 8080,
+      progress: true,
+      onError(errors) {
+        conosle.log(errors.join('\n\n'))
+      }
+    })
+  ]
+}
+```
+
+## 配置项
+
+具体配置项的数据类型见[types.ts](./src/types.ts)
+
+- **servePort** devServe服务消息端口，用于开发环境输出默认访问地址提示。默认: `33333`
+- **progress** 是否需要构建进度消息。 默认: `true`
+- **onSuccess** 编译完成回调。
+- **onError** 编译失败回调。
+- **onWarning** 编译警告回调。

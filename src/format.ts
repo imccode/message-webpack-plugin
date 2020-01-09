@@ -15,18 +15,17 @@ const formatMessage = (message: string): string => {
   let lines = message.split('\n')
 
   lines = lines.filter(line => {
-    if (/Module [A-z ]+\(from/.test(line)) return false
-    if (/^\s*at\s((?!webpack:).)*:\d+:\d+[\s)]*(\n|$)/gm.test(line)) return false
-    if (/^\s*at\s<anonymous>(\n|$)/gm.test(line)) return false
+    if (/^Module\s[A-z ]+\(from/gm.test(line)) return false
+    if (/^Thread\sLoader/gm.test(line)) return false
+    if (/^\s*at\s/gm.test(line)) return false
+    if (/^\s*\-?\s*(Compiler|Hook|Compilation)\.js:\d+/gm.test(line)) return false
     if (line.includes('Module failed because of a eslint error')) return false
     return true
   })
 
   lines = lines.map(line => {
-    if (line.indexOf('Thread Loader') === 0) return ''
-
     if (line === 'SyntaxError') return ''
-    
+
     // SyntaxError: ./App.js: Unexpected token, expected "{" (5:14)"
     let parsingError = /(SyntaxError: )*\S+:(( \S+)*) \((\d+):(\d+)\)/.exec(line)
     if (parsingError) {
@@ -84,7 +83,7 @@ const formatMessage = (message: string): string => {
     lines[1] += 'Run `npm install node-sass` or `yarn add node-sass` inside your workspace.'
   }
 
-  lines[0] = chalk.cyan(lines[0])
+  lines[0] = chalk.cyan.bold(lines[0])
 
   message = lines.join('\n')
 
