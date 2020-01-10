@@ -45,7 +45,8 @@ export default (options: MessageWebpackPluginOptions = {}, compiler: Compiler) =
         all: false,
         warnings: true,
         errors: true
-      })
+      }),
+      compiler.context
     )
 
     if (message.errors.length > 0) {

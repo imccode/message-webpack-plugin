@@ -32,6 +32,14 @@ export default (compiler: Compiler) => {
         formatModuleName = ''
       }
 
+      if (formatModuleName.includes('??')) {
+        formatModuleName = formatModuleName.split('??')[0]
+      }
+
+      if (formatModuleName.includes('!')) {
+        formatModuleName = formatModuleName.split('!')[0]
+      }
+
       // 将绝对路径转换为相对路径
       if (formatModuleName.includes(compiler.context)) {
         formatModuleName = path.relative(compiler.context, formatModuleName)

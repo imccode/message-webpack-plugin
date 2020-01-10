@@ -1,5 +1,7 @@
 import chalk from 'chalk'
 import { Stats } from 'webpack'
+import path from 'path'
+import { existsSync } from 'fs'
 
 const friendlySyntaxErrorLabel = 'Syntax error:'
 const friendlyParsingErrorLabel = 'Parsing error:'
@@ -11,14 +13,16 @@ const lineErrorString = (label: string, message: string, line: string, columm: s
   `${chalk.bold(`Line ${line}:${columm}`)} ${label} ${message.trim()}`
 
 // Cleans up webpack error messages.
-const formatMessage = (message: string): string => {
+const formatMessage = (message: string, context: string): string => {
   let lines = message.split('\n')
 
   lines = lines.filter(line => {
-    if (/^Module\s[A-z ]+\(from/gm.test(line)) return false
-    if (/^Thread\sLoader/gm.test(line)) return false
-    if (/^\s*at\s/gm.test(line)) return false
-    if (/^\s*\-?\s*(Compiler|Hook|Compilation)\.js:\d+/gm.test(line)) return false
+    if (/^Module\s[A-z ]+\(from/i.test(line)) return false
+    if (/^Thread\sLoader/i.test(line)) return false
+    if (/^Require\sstack/i.test(line)) return false
+    if (/^\s*at\s/i.test(line)) return false
+    if (/^\s*\-?\s(Compiler|Hook|Compilation)\.js:\d+/i.test(line)) return false
+    if (/^\s*\-\s\S+/i.test(line)) return false
     if (line.includes('Module failed because of a eslint error')) return false
     return true
   })
@@ -69,7 +73,7 @@ const formatMessage = (message: string): string => {
   }
   lines[0] = lines[0].replace(/^(.*) \d+:\d+-\d+$/, '$1')
 
-  if (lines[1] && lines[1].indexOf('Module not found: ') === 0) {
+  if (lines[1] && lines[1].includes('Module not found: ')) {
     lines = [
       lines[0],
       lines[1]
@@ -83,33 +87,24 @@ const formatMessage = (message: string): string => {
     lines[1] += 'Run `npm install node-sass` or `yarn add node-sass` inside your workspace.'
   }
 
-  lines[0] = chalk.cyan.bold(lines[0])
+  if (existsSync(path.resolve(context, lines[0]))) {
+    lines[0] = chalk.cyan.bold(lines[0])
+  } else {
+    lines[0] = chalk.red(lines[0].replace('Error: ', ''))
+  }
 
   message = lines.join('\n')
 
-  lines = lines.filter(
-    (line, index, arr) => index === 0 || line.trim() !== '' || line.trim() !== arr[index - 1].trim()
-  )
-
-  // Reassemble the message
-  message = lines.join('\n')
   return message.trim()
 }
 
-function formatWebpackMessages(statsJson: Stats.ToJsonOutput) {
-  const formattedErrors: string[] = statsJson.errors.map(message => formatMessage(message))
-  const formattedWarnings: string[] = statsJson.warnings.map(message => formatMessage(message))
-
-  const warnings = formattedWarnings
-  let errors = formattedErrors
-
-  if (errors.some(hasError)) {
-    errors = errors.filter(hasError)
-  }
+function formatWebpackMessages(statsJson: Stats.ToJsonOutput, context: string) {
+  const formattedErrors: string[] = statsJson.errors.map(message => formatMessage(message, context))
+  const formattedWarnings: string[] = statsJson.warnings.map(message => formatMessage(message, context))
 
   return {
-    warnings,
-    errors
+    warnings: formattedWarnings,
+    errors: formattedErrors
   }
 }
 
