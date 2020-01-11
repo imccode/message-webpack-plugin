@@ -1,6 +1,6 @@
 {
   "name": "message-webpack-plugin",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "一个处理消息的webpack插件",
   "main": "lib/index.js",
   "typings": "types/index.d.ts",
