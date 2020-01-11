@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import { Compiler } from 'webpack'
 import formatWebpackMessages from './format'
 import { MessageWebpackPluginOptions } from './types'
-import { localIps } from './utils'
+import { localIps, occupyPort } from './utils'
 
 const pluginName = 'MessageWebpackPlugin'
 
@@ -27,7 +27,7 @@ export default (options: MessageWebpackPluginOptions = {}, compiler: Compiler) =
 
     if (!stats.hasErrors() && !stats.hasWarnings()) {
       console.log(`\n✅ ${chalk.green('编译成功!')} ${timerStr}`)
-      if (isDev) {
+      if (isDev && !occupyPort(servePort)) {
         console.log('\n在浏览器打开以下地址浏览.\n')
         console.log(`  本地地址：${chalk.underline(`http://localhost:${servePort}`)}`)
         localIps()

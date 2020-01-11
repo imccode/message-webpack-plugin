@@ -52,7 +52,7 @@ module.exports = {
 
 具体配置项的数据类型见[types.ts](./src/types.ts)
 
-- `servePort` devServe服务消息端口，用于开发环境输出默认访问地址提示。默认: `33333`
+- `servePort` devServe服务消息端口，用于开发环境输出默认访问地址提示。默认: `8080`
 - `progress` 是否需要构建进度消息。 默认: `true`
 - `onSuccess` 编译完成回调。
 - `onError` 编译失败回调。

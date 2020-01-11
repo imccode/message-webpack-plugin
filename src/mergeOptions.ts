@@ -2,7 +2,7 @@ import { MessageWebpackPluginOptions } from './types'
 
 // 默认配置
 export const defaultOptions: MessageWebpackPluginOptions = {
-  servePort: 33333,
+  servePort: 8080,
   progress: true
 }
 
